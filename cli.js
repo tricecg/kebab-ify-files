@@ -106,19 +106,27 @@ const pass1 = () => {
           }
         }
       })
+
+      // handle paths
       const newpath = camelCaseToKebab(path)
-      console.log(`[${path}] [${newpath}]`)
       if (path !== newpath && !paths[path]) {
         paths[path] = newpath
-        if (!newpath.match(/\-/)) {
+
+        const basePath = path.split('/').slice(0, -1).join('/')
+        if (paths[basePath]) {
+          const tmppath = `${newpath}.temp-rename`
+          gitcommands.push(`mv '${fixpath(path.replace(basePath, paths[basePath]))}' '${tmppath}'`)
+          gitcommands.push(`mv '${tmppath}' '${newpath}'`)
+
+        } else {
           const tmppath = `${newpath}.temp-rename`
           gitcommands.push(`mv '${fixpath(path)}' '${tmppath}'`)
           gitcommands.push(`mv '${tmppath}' '${newpath}'`)
-        } else {
-          gitcommands.push(`mv '${fixpath(path)}' '${newpath}'`)
         }
       }
 
+
+      // handle files
       const newfile = camelCaseToKebab(file)
       if (file !== newfile) {
         if (!newfile.match(/\-/)) {
