@@ -165,6 +165,10 @@ const pass1 = () => {
       process.exit(1)
     }
 
+    const exclude = (moduleName) => {
+      return moduleName.startsWith('@mui')
+    }
+
     //
     // Make another pass, modifying the imports statements in each file
     // according to the same renaming logic
@@ -178,7 +182,7 @@ const pass1 = () => {
           .map((line) => {
             let newline = line
             const m = line.match(reg)
-            if (m) {
+            if (m && !exclude(m[1])) {
               const newfile = camelCaseToKebab(m[1])
               if (m[1] !== newfile) {
                 newline = line.replace(reg, `from '${newfile}'`)
