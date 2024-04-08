@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest",
-	"publish": "npm publish --access=public"
+    "publish": "npm publish --access=public"
   },
   "keywords": [
     "kebab-case",
@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.2",
+    "debug": "^4.3.4",
     "git-status": "^1.0.9",
     "recursive-readdir": "^2.2.2"
   },
